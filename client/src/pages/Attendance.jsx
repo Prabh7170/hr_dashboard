@@ -65,7 +65,7 @@ const Attendance = () => {
     }
   ]);
 
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Update attendance status
@@ -86,7 +86,7 @@ const Attendance = () => {
 
   // Filter attendance records
   const filteredAttendanceRecords = attendanceRecords.filter(record => {
-    const statusMatch = !statusFilter || record.status === statusFilter;
+    const statusMatch = statusFilter === 'all' || record.status === statusFilter;
     const searchMatch = !searchQuery || 
       record.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
       record.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -104,7 +104,7 @@ const Attendance = () => {
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Status</SelectItem>
+              <SelectItem value="all">All Status</SelectItem>
               <SelectItem value="Present">Present</SelectItem>
               <SelectItem value="Absent">Absent</SelectItem>
             </SelectContent>

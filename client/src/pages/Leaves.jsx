@@ -83,7 +83,7 @@ const Leaves = () => {
 
   // Filter leave applications
   const filteredLeaveApplications = leaveApplications.filter(leave => {
-    const statusMatch = !statusFilter || leave.status === statusFilter;
+    const statusMatch = statusFilter === 'all' || leave.status === statusFilter;
     const searchMatch = !searchQuery || 
       leave.employeeName.toLowerCase().includes(searchQuery.toLowerCase()) || 
       leave.reason.toLowerCase().includes(searchQuery.toLowerCase());

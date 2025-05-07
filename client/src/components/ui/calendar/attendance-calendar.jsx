@@ -95,6 +95,9 @@ const AttendanceCalendar = ({
           }}
           components={{
             DayContent: ({ day }) => {
+              // Add null check to prevent "Cannot read properties of undefined" error
+              if (!day) return null;
+              
               const leaveInfo = getLeaveInfo(day);
               return (
                 <div className="relative w-full h-full flex items-center justify-center">
