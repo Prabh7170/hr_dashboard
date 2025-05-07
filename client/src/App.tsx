@@ -10,12 +10,14 @@ import Leaves from "@/pages/Leaves";
 import Candidates from "@/pages/Candidates";
 import Attendance from "@/pages/Attendance";
 import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/RegisterPage";
 import ProtectedRoute from "@/utils/ProtectedRoute";
 
 function Router() {
   return (
     <Switch>
-      <Route path="/login" component={LoginPage} />
+      <Route path="/auth" component={LoginPage} />
+      <Route path="/register" component={RegisterPage} />
       
       <Route path="/">
         <ProtectedRoute>

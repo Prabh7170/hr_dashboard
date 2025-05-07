@@ -5,7 +5,43 @@ import { storage } from "./storage";
 import { userSchema, employeeSchema, candidateSchema, leaveSchema, attendanceSchema } from "../shared/mongo-schemas";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // API routes for authentication
+  // API route for user registration
+  app.post('/api/auth/register', async (req, res) => {
+    try {
+      const { username, password, name, role } = req.body;
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByUsername(username);
+      if (existingUser) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'User with this email already exists' 
+        });
+      }
+      
+      // Create the new user
+      const newUser = await storage.createUser({
+        username,
+        password, // In a production app, this should be hashed
+        name: name || username.split('@')[0], // Default name is email username
+        role: role || 'user' // Default role is user
+      });
+      
+      return res.status(201).json({ 
+        success: true, 
+        message: 'User registered successfully',
+        userId: newUser.id
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Server error during registration' 
+      });
+    }
+  });
+
+  // API route for login
   app.post('/api/auth/login', async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -29,9 +65,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // In a real app, passwords would be hashed
         const user = {
           id: dbUser.id,
-          name: dbUser.name,
+          name: dbUser.name || 'User',
           email: dbUser.username, // Using username as email
-          role: dbUser.role
+          role: dbUser.role || 'user'
         };
         
         return res.status(200).json({ success: true, user });
@@ -42,6 +78,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('Login error:', error);
       return res.status(500).json({ success: false, message: 'Server error during login' });
     }
+  });
+  
+  // API route for logout
+  app.post('/api/auth/logout', (req, res) => {
+    return res.status(200).json({ success: true });
   });
   
   // API routes for employees

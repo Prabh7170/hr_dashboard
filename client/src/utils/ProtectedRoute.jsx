@@ -23,9 +23,9 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // If not loading and not authenticated, redirect to login
+    // If not loading and not authenticated, redirect to auth page
     if (!isLoading && !isAuthenticated) {
-      setLocation('/login');
+      setLocation('/auth');
     }
   }, [isLoading, isAuthenticated, setLocation]);
 
