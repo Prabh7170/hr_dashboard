@@ -1,24 +1,46 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+// Import validation schemas if needed
+import { userSchema, employeeSchema, candidateSchema, leaveSchema, attendanceSchema } from "../shared/mongo-schemas";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes for authentication
-  app.post('/api/auth/login', (req, res) => {
-    const { email, password } = req.body;
-    
-    // For demo purposes, accept these credentials
-    if (email === 'hr@example.com' && password === 'password') {
-      const user = {
-        id: 1,
-        name: 'Admin',
-        email: 'hr@example.com',
-        role: 'admin'
-      };
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
       
-      res.status(200).json({ success: true, user });
-    } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
+      // First check if it's the hardcoded user for backward compatibility
+      if (email === 'hr@example.com' && password === 'password') {
+        const user = {
+          id: 1,
+          name: 'Admin',
+          email: 'hr@example.com',
+          role: 'admin'
+        };
+        
+        return res.status(200).json({ success: true, user });
+      }
+      
+      // Otherwise check in the database (assuming email is stored as username)
+      const dbUser = await storage.getUserByUsername(email);
+      
+      if (dbUser && dbUser.password === password) {
+        // In a real app, passwords would be hashed
+        const user = {
+          id: dbUser.id,
+          name: dbUser.name,
+          email: dbUser.username, // Using username as email
+          role: dbUser.role
+        };
+        
+        return res.status(200).json({ success: true, user });
+      } else {
+        return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      return res.status(500).json({ success: false, message: 'Server error during login' });
     }
   });
   
