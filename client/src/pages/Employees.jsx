@@ -56,7 +56,7 @@ const Employees = () => {
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentEmployee, setCurrentEmployee] = useState(null);
-  const [positionFilter, setPositionFilter] = useState('');
+  const [positionFilter, setPositionFilter] = useState('all');
   const [formErrors, setFormErrors] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -107,8 +107,8 @@ const Employees = () => {
   };
 
   const filteredEmployees = employees.filter(employee => {
-    // Filter by position
-    const positionMatch = !positionFilter || employee.position === positionFilter;
+    // Filter by position (now using "all" instead of empty string)
+    const positionMatch = positionFilter === 'all' || employee.position === positionFilter;
     
     // Filter by search query
     const searchMatch = !searchQuery || 
@@ -130,7 +130,7 @@ const Employees = () => {
               <SelectValue placeholder="Position" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Positions</SelectItem>
+              <SelectItem value="all">All Positions</SelectItem>
               {positions.map((position, index) => (
                 <SelectItem key={index} value={position}>{position}</SelectItem>
               ))}

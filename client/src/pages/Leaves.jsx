@@ -69,7 +69,7 @@ const Leaves = () => {
 
   const [date, setDate] = useState(new Date());
   const [isAddLeaveModalOpen, setIsAddLeaveModalOpen] = useState(false);
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [newLeave, setNewLeave] = useState({
     employeeName: '',
     designation: '',
@@ -227,7 +227,7 @@ const Leaves = () => {
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Status</SelectItem>
+                  <SelectItem value="all">All Status</SelectItem>
                   <SelectItem value="Pending">Pending</SelectItem>
                   <SelectItem value="Approved">Approved</SelectItem>
                   <SelectItem value="Rejected">Rejected</SelectItem>
