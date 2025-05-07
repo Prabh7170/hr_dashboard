@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 262 100% 65%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 60 4.8% 95.9%;
+  --secondary-foreground: 24 9.8% 10%;
+  --accent: 60 4.8% 95.9%;
+  --accent-foreground: 24 9.8% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 20 14.3% 4.1%;
+  --radius: 0.5rem;
+  --chart-1: 207 90% 54%;
+  --chart-2: 142 71% 45%;
+  --chart-3: 47 89% 60%;
+  --chart-4: 283 68% 58%;
+  --chart-5: 16 83% 54%;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 262 100% 65%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-hr-gray text-foreground;
+  }
+}
+
+@layer components {
+  /* Custom styling for sidebar and other components */
+  .hr-sidebar {
+    @apply w-[250px] h-screen fixed left-0 top-0 bg-white shadow-sm z-10 overflow-y-auto;
+  }
+  
+  .hr-sidebar-section {
+    @apply text-xs font-semibold text-gray-400 py-3 px-4 uppercase;
+  }
+  
+  .hr-sidebar-item {
+    @apply flex items-center px-4 py-2.5 text-gray-600 font-medium transition-all duration-200 border-l-3 border-transparent cursor-pointer;
+  }
+  
+  .hr-sidebar-item:hover {
+    @apply bg-gray-100 text-hr-purple;
+  }
+  
+  .hr-sidebar-item.active {
+    @apply text-hr-purple bg-hr-purple bg-opacity-10 border-l-3 border-hr-purple;
+  }
+  
+  .hr-input {
+    @apply w-full py-2 px-3 border border-gray-200 rounded-md outline-none transition-all duration-200;
+  }
+  
+  .hr-input:focus {
+    @apply border-hr-purple ring-2 ring-hr-purple ring-opacity-10;
+  }
+}
+
+@layer utilities {
+  .bg-hr-purple {
+    background-color: #6C4FFF;
+  }
+  
+  .bg-hr-purple-light {
+    background-color: #8F7AFF;
+  }
+  
+  .bg-hr-purple-dark {
+    background-color: #5A3FE0;
+  }
+  
+  .bg-hr-gray {
+    background-color: #F5F5F7;
+  }
+  
+  .text-hr-purple {
+    color: #6C4FFF;
+  }
+  
+  .text-hr-purple-light {
+    color: #8F7AFF;
+  }
+  
+  .text-hr-purple-dark {
+    color: #5A3FE0;
+  }
+  
+  .border-hr-purple {
+    border-color: #6C4FFF;
+  }
+  
+  .ring-hr-purple {
+    --tw-ring-color: #6C4FFF;
+  }
+  
+  .hover\:bg-hr-purple:hover {
+    background-color: #6C4FFF;
+  }
+  
+  .hover\:bg-hr-purple-light:hover {
+    background-color: #8F7AFF;
+  }
+  
+  .hover\:text-hr-purple:hover {
+    color: #6C4FFF;
+  }
+  
+  .border-l-3 {
+    border-left-width: 3px;
+  }
+  
+  /* Responsive adjustments for sidebar */
+  @media (max-width: 768px) {
+    .hr-sidebar {
+      width: 70px;
+    }
+    
+    .hr-sidebar-item span,
+    .hr-sidebar-section {
+      display: none;
+    }
+    
+    .hr-sidebar-item {
+      justify-content: center;
+      padding: 12px;
+    }
+    
+    .hr-sidebar-item svg {
+      margin-right: 0;
+    }
+  }
+}
