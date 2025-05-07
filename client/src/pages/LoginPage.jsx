@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 import { toast } from '@/hooks/use-toast';
 import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { login } from '../utils/auth';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -31,18 +32,9 @@ const LoginPage = () => {
     setIsLoading(true);
     
     try {
-      // Demo login for testing
-      if (email === 'hr@example.com' && password === 'password') {
-        const user = {
-          id: 1,
-          name: 'Admin',
-          email: 'hr@example.com',
-          role: 'admin'
-        };
-        
-        // Store in localStorage (this would be a server-side session in a real app)
-        localStorage.setItem('hr_user', JSON.stringify(user));
-        
+      const user = login(email, password);
+      
+      if (user) {
         toast({
           title: 'Login Successful',
           description: 'Welcome to the HR Dashboard!'

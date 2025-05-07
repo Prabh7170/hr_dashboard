@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
-import { useAuth } from '../contexts';
+import { getCurrentUser } from '../utils/auth';
 
 const Layout = ({ children, title }) => {
-  const { user } = useAuth();
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    // Get user from auth utility
+    setUser(getCurrentUser());
+  }, []);
 
   return (
     <div className="flex min-h-screen">

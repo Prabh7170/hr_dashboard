@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
-import { useAuth } from '../contexts';
 import { LogOut, Search, Home, Users, Calendar, FileText, User } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+import { getCurrentUser, logout as authLogout } from '../utils/auth';
 
 const Sidebar = () => {
-  const [location] = useLocation();
-  const { logout, user } = useAuth();
+  const [location, setLocation] = useLocation();
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    // Get user from auth utility
+    setUser(getCurrentUser());
+  }, []);
+  
+  const handleLogout = () => {
+    authLogout();
+    setUser(null);
+    toast({
+      title: 'Logged out',
+      description: 'You have been successfully logged out.'
+    });
+    setLocation('/login');
+  };
 
   const isActive = (path) => {
     return location === path;
@@ -78,7 +94,7 @@ const Sidebar = () => {
         <div className="hr-sidebar-section">Others</div>
         <div 
           className="hr-sidebar-item cursor-pointer"
-          onClick={logout}
+          onClick={handleLogout}
         >
           <LogOut className="w-5 h-5 mr-2" />
           <span>Logout</span>
