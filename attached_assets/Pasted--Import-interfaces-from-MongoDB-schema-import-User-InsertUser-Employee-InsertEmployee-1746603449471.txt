@@ -1,0 +1,164 @@
+// Import interfaces from MongoDB schema
+import { 
+  User, InsertUser,
+  Employee, InsertEmployee,
+  Candidate, InsertCandidate,
+  Leave, InsertLeave,
+  Attendance, InsertAttendance
+} from "../shared/mongo-schemas";
+
+// Import our mock database
+import { db } from "./db";
+
+// Storage interface with all CRUD methods needed for the application
+export interface IStorage {
+  // User methods
+  getUser(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+  
+  // Employee methods
+  getAllEmployees(): Promise<Employee[]>;
+  getEmployee(id: number): Promise<Employee | undefined>;
+  createEmployee(employee: InsertEmployee): Promise<Employee>;
+  updateEmployee(id: number, employee: Partial<Employee>): Promise<Employee>;
+  deleteEmployee(id: number): Promise<void>;
+  
+  // Candidate methods
+  getAllCandidates(): Promise<Candidate[]>;
+  getCandidate(id: number): Promise<Candidate | undefined>;
+  createCandidate(candidate: InsertCandidate): Promise<Candidate>;
+  updateCandidate(id: number, candidate: Partial<Candidate>): Promise<Candidate>;
+  deleteCandidate(id: number): Promise<void>;
+  
+  // Leave methods
+  getAllLeaves(): Promise<Leave[]>;
+  getLeave(id: number): Promise<Leave | undefined>;
+  createLeave(leave: InsertLeave): Promise<Leave>;
+  updateLeave(id: number, leave: Partial<Leave>): Promise<Leave>;
+  deleteLeave(id: number): Promise<void>;
+  
+  // Attendance methods
+  getAllAttendance(): Promise<Attendance[]>;
+  getAttendance(id: number): Promise<Attendance | undefined>;
+  createAttendance(attendance: InsertAttendance): Promise<Attendance>;
+  updateAttendance(id: number, attendance: Partial<Attendance>): Promise<Attendance>;
+  deleteAttendance(id: number): Promise<void>;
+  
+  // Initialize sample data
+  initializeSampleData(): Promise<void>;
+}
+
+// Storage implementation using our mock MongoDB
+export class MongoStorage implements IStorage {
+  // User methods
+  async getUser(id: number): Promise<User | undefined> {
+    const user = db.findUser(id);
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const user = db.findUserByUsername(username);
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    return db.insertUser(insertUser);
+  }
+
+  // Employee methods
+  async getAllEmployees(): Promise<Employee[]> {
+    return db.findAllEmployees();
+  }
+
+  async getEmployee(id: number): Promise<Employee | undefined> {
+    const employee = db.findEmployee(id);
+    return employee || undefined;
+  }
+
+  async createEmployee(insertEmployee: InsertEmployee): Promise<Employee> {
+    return db.insertEmployee(insertEmployee);
+  }
+
+  async updateEmployee(id: number, employeeData: Partial<Employee>): Promise<Employee> {
+    return db.updateEmployee(id, employeeData);
+  }
+
+  async deleteEmployee(id: number): Promise<void> {
+    db.deleteEmployee(id);
+  }
+
+  // Candidate methods
+  async getAllCandidates(): Promise<Candidate[]> {
+    return db.findAllCandidates();
+  }
+
+  async getCandidate(id: number): Promise<Candidate | undefined> {
+    const candidate = db.findCandidate(id);
+    return candidate || undefined;
+  }
+
+  async createCandidate(insertCandidate: InsertCandidate): Promise<Candidate> {
+    return db.insertCandidate(insertCandidate);
+  }
+
+  async updateCandidate(id: number, candidateData: Partial<Candidate>): Promise<Candidate> {
+    return db.updateCandidate(id, candidateData);
+  }
+
+  async deleteCandidate(id: number): Promise<void> {
+    db.deleteCandidate(id);
+  }
+
+  // Leave methods
+  async getAllLeaves(): Promise<Leave[]> {
+    return db.findAllLeaves();
+  }
+
+  async getLeave(id: number): Promise<Leave | undefined> {
+    const leave = db.findLeave(id);
+    return leave || undefined;
+  }
+
+  async createLeave(insertLeave: InsertLeave): Promise<Leave> {
+    return db.insertLeave(insertLeave);
+  }
+
+  async updateLeave(id: number, leaveData: Partial<Leave>): Promise<Leave> {
+    return db.updateLeave(id, leaveData);
+  }
+
+  async deleteLeave(id: number): Promise<void> {
+    db.deleteLeave(id);
+  }
+
+  // Attendance methods
+  async getAllAttendance(): Promise<Attendance[]> {
+    return db.findAllAttendance();
+  }
+
+  async getAttendance(id: number): Promise<Attendance | undefined> {
+    const attendance = db.findAttendance(id);
+    return attendance || undefined;
+  }
+
+  async createAttendance(insertAttendance: InsertAttendance): Promise<Attendance> {
+    return db.insertAttendance(insertAttendance);
+  }
+
+  async updateAttendance(id: number, attendanceData: Partial<Attendance>): Promise<Attendance> {
+    return db.updateAttendance(id, attendanceData);
+  }
+
+  async deleteAttendance(id: number): Promise<void> {
+    db.deleteAttendance(id);
+  }
+  
+  // This is just a placeholder since our mock database is already initialized in connectDB
+  async initializeSampleData(): Promise<void> {
+    console.log("Sample data already initialized");
+    return;
+  }
+}
+
+export const storage = new MongoStorage();
